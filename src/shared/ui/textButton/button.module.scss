@@ -1,0 +1,22 @@
+@use '../../../app/styles/mixins/_mixins' as *;
+
+.button {
+    border: none;
+    background-color: transparent;
+
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    color: var(--primary-gray);
+    
+    @include caption-big;
+
+    &:hover, &:active {
+        color: var(--primary_text);
+    }
+
+    transition: all ease-in-out .2s;
+}
+
+.disabled {
+    color: var(--secondary-gray);
+}

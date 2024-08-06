@@ -1,0 +1,104 @@
+@import '../../../app/styles/mixins/_mixins.scss';
+
+.input {
+    height: 36px;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    &[type=number] {
+    -moz-appearance: textfield;
+    }
+
+    &:disabled {
+        border-color: transparent;
+    }
+
+    @include paragraph-base;
+    
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    background-color: var(--secondary)!important;
+    box-shadow: none!important;
+    box-sizing: border-box;
+
+    svg {
+        transition: all ease-in-out .05s;
+        fill: var(--primary-gray);
+    }
+    
+
+    .suffix {
+        height: 20px;
+        width: 20px;
+        padding: 0;
+        border: none;
+        background-color: transparent;
+        &:hover {
+            background-color: transparent;
+        }
+    }
+
+    .invisible {
+        svg {
+            fill: transparent;
+        }
+    }
+
+    color: var(--primary-gray);
+    &::placeholder {
+        text-align: center;
+        transition: color ease-out .15s;
+    }
+
+    &:focus {
+        &::placeholder {
+            color: transparent;
+        }
+    }
+}
+
+.light {
+    border-color: #DEDEDE;
+    background-color: transparent!important;
+
+    &:focus-within, &:focus {
+        border-color: var(--primary-gray);
+
+        &:hover {
+            border-color: var(--primary-gray);
+        }
+    }
+
+    &:hover {
+        border-color: #DEDEDE;
+    }
+
+    &::placeholder {
+        color: var(--primary-gray);
+    }
+}
+
+
+.dark {
+    border-color: transparent;
+    &:focus-within, &:focus {
+        border-color: var(--primary-gray)!important;
+
+        &:hover {
+            border-color: var(--primary-gray);
+        }
+    }
+
+    &:hover {
+        border-color: transparent;
+    }
+
+    &::placeholder {
+        color: #575757;
+    }
+}

@@ -1,0 +1,14 @@
+.themeBtn {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    &:hover, &:active {
+      svg {
+          fill: var(--primary-gray);
+      }
+
+      background-color: var(--hover-bg);
+  }
+}

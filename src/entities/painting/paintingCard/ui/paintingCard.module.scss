@@ -1,0 +1,204 @@
+@use '../../../../app/styles/mixins/mixins.scss' as *;
+
+.paintingCard {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+
+
+    @media only screen and (min-width: 320px) and (max-width: 767px) {
+        width: 100%;
+    }
+
+    img {
+        height: 185px;
+        width: 100%;
+        object-fit: cover;
+
+        @media only screen and (min-width: 768px) {
+            height: 220px;
+        }
+
+        @media screen and (min-width: 1024px) {
+            transition: transform 0.4s ease-in-out;
+        }
+    
+        @media only screen and (min-width: 1280px) {
+            height: 260px;
+        }
+    }
+    
+    @media only screen and (min-width: 768px) {
+
+        @for $r from 1 through 3 {
+            @for $c from 1 through 2 {
+                $index: ($r - 1) * 2 + $c;
+                $start: 1 + ($c - 1) * 4;
+                &:nth-child(#{$index}) {
+                    grid-column: $start / span 4; 
+                }
+            }
+        }
+    }
+
+    @media screen and (min-width: 1280px) {
+        @for $r from 1 through 2 {
+            @for $c from 1 through 3 {
+                $index: ($r - 1) * 3 + $c;
+                $start: 1 + ($c - 1) * 4;
+                &:nth-child(#{$index}) {
+                    grid-column: $start / span 4;
+                }
+            }
+        }
+    }
+
+    &:hover {
+        @media screen and (min-width: 1024px) {
+            img {
+                transform: scale(1.075);
+            }
+
+            .previewInfo {
+                top: 100px;
+
+                .upperText, .lowerText {
+                    color: transparent;
+                }
+            }
+
+            .hoveredInfo {
+                left: 18px;
+
+                .upperText {
+                    color: var(--primary_text);
+                }
+                
+                .lowerText {
+                    color: var(--accent);
+                }
+            }
+            
+        }
+    }
+}
+
+.figcaption {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    background-color: var(--primary_bg);
+    align-items: center;
+
+
+    @media only screen and (min-width: 320px) and (max-width: 1023px) {
+        justify-content: end;
+        width: 250px;
+        height: 45px;
+        &::after {
+            content: '';
+            height: 45px;
+            width: 24px;
+            background-color: var(--accent);
+            background-image: url('../../../../shared/assets/icons/arrow.svg');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    }
+
+    @media only screen and (min-width: 768px) {
+        width: 324px;
+        height: 66px;
+        &::after {
+            height: 66px;
+            width: 24px;
+        }
+    }
+
+    @media only screen and (min-width: 1024px) {
+        width: 300px;
+        height: 82px;
+        justify-content: start;
+        &::before {
+            content: '';
+            display: block;
+            height: 42px;
+            width: 2px;
+            background-color: var(--accent);
+        }
+    }
+
+}
+
+.container {
+    height: 42px;
+    display: flex;
+    position: relative;
+    margin: auto 0;
+    width: calc(100% - 20px);
+    align-items: center;
+    border-left: 2px solid transparent;
+    @media only screen and (min-width: 1024px) {
+        border-left: 2px solid var(--accent);
+    }
+}
+
+.previewInfo, .hoveredInfo {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 18px;
+    transition: all 0.35s ease-in-out;
+    @media only screen and (min-width: 320px) {
+        top: 8px;
+        gap: 4px;
+        width: calc(100% - 64px);
+    }
+
+    @media screen and (min-width: 768px) {
+        top: 14.5px;
+        gap: 8px;
+    }
+
+    @media only screen and (min-width: 1024px) {
+        top: 20px;
+        width: calc(100% - 40px);
+    }
+}
+
+.hoveredInfo {
+    left: -280px;
+
+    .upperText, .lowerText {
+        color: transparent;    
+    }
+    
+}
+
+.upperText {
+    
+    color: var(--primary_text);
+
+    @media only screen and (max-width: 767px) {
+        color: var(--primary-gray);
+    }
+}
+
+.lowerText {
+    @include caption-small;
+    color: var(--accent);
+
+    @media only screen and (min-width: 768px) {
+        @include caption-big;
+    }
+}
+
+.upperText, .lowerText {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+}

@@ -1,0 +1,93 @@
+@import '../../../../app/styles/mixins/_mixins.scss';
+
+.selectWrapper {
+    position: relative;
+    width: 100%;
+    
+    .selectInput {
+        box-shadow: none;
+        border-radius: 4px;
+        border-width: 1px;
+        border-style: solid;
+        color: var(--primary-gray);
+        box-sizing: border-box;
+        z-index: 101;
+        height: 36px;
+        
+        &:focus {
+            border-color: var(--primary-gray);
+        }
+    }
+    &[aria-expanded='false'] {
+        .selectVariants {
+            display: none;
+        }
+    }
+    &[aria-expanded='true'] {
+        background-color: var(--secondary);
+        border-radius: 4px 4px 0 0;
+    }
+    
+    .selectVariants {
+        transition: opacity 5s ease-out 3s;
+        opacity: 1;
+        width: 100%;
+        position: absolute;
+        z-index: 102;
+        top: 100%;
+        display: flex;
+        flex-direction: column;
+        
+        padding: 12px 0;
+        border-radius: 0 0 4px 4px;
+        margin: 0;
+        gap: 4px;
+        max-height: 160px;
+        overflow: auto;
+        list-style: none;
+        & li {
+            cursor: pointer;
+            transition: background-color ease-out .3s;
+            & button {
+                padding: 8px 16px;
+                width: 100%;
+                border: none;
+                background-color: transparent;
+                color: var(--primary-gray);
+                text-align: left;
+            }
+        }
+
+        & li:hover {
+            background-color: var(--hover-bg);
+        }
+    }
+}
+
+.light {
+    .selectInput {
+        border-color: #DEDEDE;
+        &::placeholder {
+            color: var(--secondary-gray);
+        }    
+    }
+
+    .selectVariants {
+        background-color: var(--primary_bg);
+    }
+}
+
+.dark {
+    .selectInput {
+        background-color: var(--secondary);
+        border-color: transparent;
+        &::placeholder {
+            color: #575757;
+        }
+    }
+
+    .selectVariants {
+        background-color: var(--secondary);
+    }
+}
+

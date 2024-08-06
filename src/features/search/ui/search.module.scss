@@ -1,0 +1,81 @@
+@use '../../../app/styles/mixins/mixins' as *;
+
+.search {
+    height: 36px;
+
+    border-radius: 4px;
+    background-color: var(--secondary)!important;
+    box-shadow: none!important;
+    box-sizing: border-box;
+    padding: 8px 16px;
+
+    svg {
+        transition: all ease-in-out .05s;
+        fill: var(--primary-gray);
+    }
+    
+    input {
+        margin: 0 8px;
+        color: var(--primary-gray)!important;
+        @include paragraph-base;
+    }
+
+    .suffix {
+        height: 20px;
+        width: 20px;
+        padding: 0;
+        border: none;
+        background-color: transparent;
+        &:hover {
+            background-color: transparent;
+        }
+    }
+
+    .invisible {
+
+        cursor: default;
+        svg {
+            fill: transparent;
+        }
+    }
+}
+
+.light {
+    border: 1px solid #DEDEDE;
+    background-color: transparent!important;
+
+    &:focus-within, &:focus {
+        border-color: var(--primary-gray);
+
+        &:hover {
+            border-color: var(--primary-gray);
+        }
+    }
+
+    &:hover {
+        border-color: #DEDEDE;
+    }
+
+    input::placeholder {
+        color: var(--primary-gray);
+    }
+}
+
+.dark {
+    border-color: transparent;
+    &:focus-within, &:focus {
+        border-color: var(--primary-gray);
+
+        &:hover {
+            border-color: var(--primary-gray);
+        }
+    }
+
+    &:hover {
+        border-color: transparent;
+    }
+
+    input::placeholder {
+        color: #575757;
+    }
+}
