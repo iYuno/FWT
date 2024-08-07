@@ -1,9 +1,9 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import axiosBaseQuery, { BASE_URL } from '../base';
-import { IPaintings } from './types';
+import { IPainting } from './types';
 
 const API_URL = '/paintings';
-export interface IPaintingsParams {
+export interface IPaintingParams {
   _gte?: string;
   _lte?: string;
   id?: number;
@@ -16,14 +16,18 @@ export const paintingApi = createApi({
   reducerPath: 'paintingApi',
   baseQuery: axiosBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (build) => ({
-    fetchPaintings: build.query<IPaintings[], IPaintingsParams>({
+    fetchPaintings: build.query<IPainting[], IPaintingParams>({
       query: ({
         _gte, _lte, id, q, _page, _limit,
       }) => ({
         url: `${API_URL}?${_gte ? `_gte=${_gte}` : ''}&${_lte ? `_lte=${_lte}` : ''}&${id ? `id=${id}` : ''}&${q ? `q=${q}` : ''}&${_page ? `_page=${_page}` : ''}&${_limit ? `_limit=${_limit}` : ''}`,
       }),
     }),
+    fetchPaintingsLength: build.query<number, void>({
+      query: () => ({ url: API_URL }),
+      transformResponse: (response: IPainting[]) => response.length,
+    }),
   }),
 });
 
-export const { useFetchPaintingsQuery } = paintingApi;
+export const { useFetchPaintingsQuery, useFetchPaintingsLengthQuery } = paintingApi;

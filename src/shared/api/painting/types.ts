@@ -2,7 +2,7 @@ export interface IPainting {
   readonly authorId: number;
   readonly created: string;
   readonly id: number;
-  readonly imgUrl: string;
+  readonly imageUrl: string;
   readonly locationId: number;
   readonly name: string;
 }

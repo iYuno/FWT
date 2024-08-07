@@ -3,9 +3,9 @@ import axios from 'axios';
 import { BASE_URL } from '../../../../shared/api/base';
 import { ErrorType, RejectedDataType } from '../../../../shared/api/types/errorTypes';
 import { IPainting } from '../../../../shared/api/painting/types';
-import { IPaintingsParams } from '../../../../shared/api/painting/painting';
+import { IPaintingParams } from '../../../../shared/api/painting/painting';
 
-interface IFetchSearch extends IPaintingsParams {}
+interface IFetchSearch extends IPaintingParams {}
 
 const fetchPaintingsFillteredList = createAsyncThunk<IPainting[], IFetchSearch, { readonly rejectValue: RejectedDataType }>('paintings/fetchFillteredList  ', async ({
   _gte, _lte, id, q, _page, _limit,

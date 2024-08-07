@@ -1,0 +1,21 @@
+@mixin skeleton-animation($duration: 1.25s) {
+  animation: skeleton-loading $duration infinite linear alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: var(--skeleton-secondary);
+  }
+  100% {
+    background-color: var(--skeleton);
+  }
+}
+
+.skeleton {
+  width: 100px;
+  height: 100px;
+
+
+  display: inline-block;
+  @include skeleton-animation();
+}

@@ -15,7 +15,7 @@ function Input({ className, ...props }: InputProps) {
     value,
     onChangeProp,
     onBlur,
-    onFocus,
+    // onFocus,
     onKeyDown,
     placeholder,
     disabled,

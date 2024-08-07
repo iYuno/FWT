@@ -1,8 +1,12 @@
+$skeleton-light: lighten(#181818, 5%);
+
 .app.dark {
   --primary_bg: #121212;
   --primary_text: #ffffff;
   --primary-gray: #DEDEDE;
   --secondary: #1a1818;
   --accent: #ab8956;
-  --hover-bg: rgba(205, 205, 205, .05);
+  --skeleton: #181818;
+  --skeleton-secondary: #{$skeleton-light};
+  --hover-bg: rgba(205, 205, 205, 0.051);
 }

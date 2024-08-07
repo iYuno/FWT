@@ -9,7 +9,9 @@
     @media only screen and (min-width: 320px) and (max-width: 767px) {
         width: 100%;
     }
-
+    .image {
+        object-fit: cover;
+    }
     img {
         height: 185px;
         width: 100%;

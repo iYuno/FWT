@@ -1,8 +1,12 @@
+$skeleton-dark: darken(#f0f0f0, 10%);
+
 .app.light {
   --primary_bg: #ffffff;
   --primary_text: #121212;
   --primary-gray: #575757;
   --secondary: #FCFCFC;
   --accent: #9b4b4b;
+  --skeleton: #f0f0f0;
+  --skeleton-secondary: #{$skeleton-dark};
   --hover-bg: rgba(18, 18, 18, 0.05);
 }
