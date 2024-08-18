@@ -16,18 +16,19 @@ export const paintingApi = createApi({
   reducerPath: 'paintingApi',
   baseQuery: axiosBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (build) => ({
-    fetchPaintings: build.query<IPainting[], IPaintingParams>({
+    fetchPaintings:
+    build.query<{ paintings: IPainting[], totalCountPaintings: number }, IPaintingParams>({
       query: ({
         _gte, _lte, id, q, _page, _limit,
       }) => ({
         url: `${API_URL}?${_gte ? `_gte=${_gte}` : ''}&${_lte ? `_lte=${_lte}` : ''}&${id ? `id=${id}` : ''}&${q ? `q=${q}` : ''}&${_page ? `_page=${_page}` : ''}&${_limit ? `_limit=${_limit}` : ''}`,
       }),
-    }),
-    fetchPaintingsLength: build.query<number, void>({
-      query: () => ({ url: API_URL }),
-      transformResponse: (response: IPainting[]) => response.length,
+      transformResponse: (response: IPainting[], meta: { headers: { 'x-total-count': number } }) => ({
+        paintings: response,
+        totalCountPaintings: meta?.headers['x-total-count'],
+      }),
     }),
   }),
 });
 
-export const { useFetchPaintingsQuery, useFetchPaintingsLengthQuery } = paintingApi;
+export const { useFetchPaintingsQuery } = paintingApi;

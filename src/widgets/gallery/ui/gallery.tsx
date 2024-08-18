@@ -2,17 +2,21 @@ import { useEffect, useState } from 'react';
 import PaintingCard from '../../../entities/painting/paintingCard/ui/paintingCard';
 import { useFetchAuthorsQuery } from '../../../shared/api/author/author';
 import { useFetchLocationsQuery } from '../../../shared/api/location/location';
-import { useFetchPaintingsLengthQuery, useFetchPaintingsQuery } from '../../../shared/api/painting/painting';
+import { useFetchPaintingsQuery } from '../../../shared/api/painting/painting';
 import Pagination from '../../../shared/ui/pagination/pagination';
 import Skeleton from '../../../shared/ui/skeleton/skeleton';
 import s from './gallery.module.scss';
 
 function Gallery() {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data: paintings, refetch } = useFetchPaintingsQuery({ _page: currentPage, _limit: 6 });
+  const {
+    data,
+    refetch,
+    isFetching,
+
+  } = useFetchPaintingsQuery({ _page: currentPage, _limit: 6 });
   const { data: authors } = useFetchAuthorsQuery();
   const { data: locations } = useFetchLocationsQuery();
-  const { data: paintignsTotal } = useFetchPaintingsLengthQuery();
 
   function refetchPaintings() {
     refetch();
@@ -22,7 +26,7 @@ function Gallery() {
     refetchPaintings();
   }, [currentPage]);
 
-  if (!paintings || !authors || !locations) {
+  if (!data || !data.paintings || !authors || !locations) {
     return (
       <div className={s.gallery}>
         {[...new Array(6)].map(() => <Skeleton className={s.cardSkeleton} />)}
@@ -33,19 +37,21 @@ function Gallery() {
 
   return (
     <div className={s.gallery}>
-      {paintings && authors && locations && paintings.map((painting) => (
+      {!isFetching && data && data.paintings
+      && authors && locations && data.paintings.map((painting) => (
         <PaintingCard
           author={authors[painting.authorId - 1].name}
           location={locations[painting.locationId - 1].location}
           painting={painting}
         />
       ))}
+      {isFetching && [...new Array(6)].map(() => <Skeleton className={s.cardSkeleton} />)}
       {
-        paintignsTotal && paintignsTotal > 0 && (
+        data.totalCountPaintings && data.totalCountPaintings > 0 && (
           <Pagination
             onChange={setCurrentPage}
             currentPage={currentPage}
-            totalItems={paintignsTotal}
+            totalItems={data.totalCountPaintings}
             itemsPerPage={6}
           />
         )
