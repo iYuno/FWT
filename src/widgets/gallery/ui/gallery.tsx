@@ -6,25 +6,26 @@ import { useFetchPaintingsQuery } from '../../../shared/api/painting/painting';
 import Pagination from '../../../shared/ui/pagination/pagination';
 import Skeleton from '../../../shared/ui/skeleton/skeleton';
 import s from './gallery.module.scss';
+import { useAppSelector } from '../../../shared/lib/store/redux';
 
 function Gallery() {
   const [currentPage, setCurrentPage] = useState(1);
+  const query = useAppSelector((state) => state.search.query);
   const {
     data,
-    refetch,
+    refetch: refetchPaintings,
     isFetching,
-
-  } = useFetchPaintingsQuery({ _page: currentPage, _limit: 6 });
+  } = useFetchPaintingsQuery({ _page: currentPage, _limit: 6, q: query });
   const { data: authors } = useFetchAuthorsQuery();
   const { data: locations } = useFetchLocationsQuery();
-
-  function refetchPaintings() {
-    refetch();
-  }
 
   useEffect(() => {
     refetchPaintings();
   }, [currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query]);
 
   if (!data || !data.paintings || !authors || !locations) {
     return (
@@ -56,6 +57,7 @@ function Gallery() {
           />
         )
       }
+      {data.paintings.length === 0 && <p className={s.noPaintings}>No paintings found</p>}
     </div>
   );
 }

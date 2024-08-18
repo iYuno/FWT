@@ -7,7 +7,7 @@ export interface IPaintingParams {
   _gte?: string;
   _lte?: string;
   id?: number;
-  q?: string;
+  q?: string | null;
   _page?: number;
   _limit?: number;
 }

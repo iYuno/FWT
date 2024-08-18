@@ -1,18 +1,18 @@
 .gallery {
-
+    
     @media screen and (min-width: 320px) and (max-width: 767px) {
         display: flex;
         flex-wrap: wrap;
         overflow-y: auto;
         gap: 20px 0;
+        margin-top: 20px;
         align-items: center;
         justify-content: center;
         max-height: calc(100% - 108px);
         grid-column: 1 / span 6;
         &::-webkit-scrollbar {
             display: none;
-        }
-        
+        }        
     }
 
     @media only screen and (min-width: 768px) {
@@ -87,6 +87,34 @@
         @media screen and (min-width: 1280px) {
             grid-column: 5 / span 4;
             margin-top: 12px;
+        }
+    }
+
+    .noPaintings {
+        text-align: center;
+        color: var(--primary_text);
+        text-transform: lowercase;
+        font-variant: small-caps;
+        margin: 0;
+        @media screen and (min-width: 320px) {
+            width: 100%;
+            font-size: 14px;
+            align-self: flex-start;
+        }
+
+        @media screen and (min-width: 768px) {
+            grid-column: 3 / span 4;
+            font-size: 16px;
+            grid-row: 13;
+            height: 24px;
+            align-content: center;
+        }
+
+        @media screen and (min-width: 1280px) {
+            grid-column: 5 / span 4;
+            grid-row: 9;
+            height: 32px;
+            
         }
     }
 }

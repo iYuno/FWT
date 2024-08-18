@@ -1,27 +1,17 @@
-// import { createSlice } from '@reduxjs/toolkit';
-// import { ISearchState } from './types';
-// import fetchSearch from './searchThunk';
+import { createSlice } from '@reduxjs/toolkit';
+import { ISearchState } from './types';
 
-// const initialState: ISearchState = {
-//   paintings: null,
-//   isLoading: false,
-//   error: null,
-// };
+const initialState: ISearchState = {
+  query: null,
+};
 
-// const searchSlice = createSlice({
-//   name: 'search',
-//   initialState,
-//   reducers: {},
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(fetchSearch.pending, (state) => ({ ...state, isLoading: true, error: null }))
-//       .addCase(fetchSearch.fulfilled, (state, action) => ({
-//         ...state, isLoading: false, error: null, paintings: [...action.payload],
-//       }))
-//       .addCase(fetchSearch.rejected, (state, action) => (
-//         { ...state, isLoading: false, error: action.payload ?? null }
-//       ));
-//   },
-// });
-
-// export default searchSlice.reducer;
+const searchSlice = createSlice({
+  name: 'search',
+  initialState,
+  reducers: {
+    changeQuery: (_, action) => ({ query: action.payload }),
+    resetQuery: () => ({ query: null }),
+  },
+});
+export const { changeQuery, resetQuery } = searchSlice.actions;
+export default searchSlice;
