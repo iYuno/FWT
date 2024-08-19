@@ -1,5 +1,5 @@
 import { Drawer } from 'antd';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import s from './filter.module.scss';
 import CloseIcon from '../../../shared/assets/icons/ui/closeIcon';
 import PlusIcon from '../../../shared/assets/icons/ui/plusIcon';
