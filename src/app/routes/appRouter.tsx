@@ -5,7 +5,7 @@ import Layout from '../layout/layout';
 function AppRouter() {
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: '/FWT/',
       element: <Gallery />,
     },
   ]);
