@@ -12,10 +12,21 @@ function Gallery() {
   const [currentPage, setCurrentPage] = useState(1);
   const query = useAppSelector((state) => state.search.query);
   const {
+    locationId, authorId, from, to,
+  } = useAppSelector((state) => state.filter);
+  const {
     data,
     refetch: refetchPaintings,
     isFetching,
-  } = useFetchPaintingsQuery({ _page: currentPage, _limit: 6, q: query });
+  } = useFetchPaintingsQuery({
+    _page: currentPage,
+    _limit: 6,
+    q: query,
+    _gte: from as string,
+    _lte: to as string,
+    authorId: authorId as number,
+    locationId: locationId as number,
+  });
   const { data: authors } = useFetchAuthorsQuery();
   const { data: locations } = useFetchLocationsQuery();
 
@@ -25,7 +36,7 @@ function Gallery() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [query]);
+  }, [query, locationId, authorId, from, to]);
 
   if (!data || !data.paintings || !authors || !locations) {
     return (

@@ -1,5 +1,5 @@
 import { Drawer } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import s from './filter.module.scss';
 import CloseIcon from '../../../shared/assets/icons/ui/closeIcon';
 import PlusIcon from '../../../shared/assets/icons/ui/plusIcon';
@@ -8,6 +8,11 @@ import Select from '../../../shared/ui/select/ui/select';
 import Input from '../../../shared/ui/input/input';
 import useTheme from '../../../entities/theme/lib/useTheme';
 import TextButton from '../../../shared/ui/textButton/textButton';
+import { useFetchAuthorsQuery } from '../../../shared/api/author/author';
+import { useFetchLocationsQuery } from '../../../shared/api/location/location';
+import { useAppDispatch } from '../../../shared/lib/store/redux';
+import { IFilterState } from '../model/types';
+import { changeFilter, resetFilter } from '../model/filterSlice';
 
 interface FilterProps {
   isOpen: boolean;
@@ -17,6 +22,10 @@ interface FilterProps {
 function Filter({ isOpen, onClose }: FilterProps) {
   const [expandedFilters, setExpandedFilters] = useState([false, false, false]);
   const { theme } = useTheme();
+  const { data: authors } = useFetchAuthorsQuery();
+  const { data: locations } = useFetchLocationsQuery();
+  const [filters, setFilters] = useState<IFilterState>({} as IFilterState);
+  const dispatch = useAppDispatch();
 
   const handleToggle = (index: number) => {
     setExpandedFilters((prevState) => {
@@ -40,26 +49,70 @@ function Filter({ isOpen, onClose }: FilterProps) {
 
   const renderInput = (label: string, disabled: boolean) => {
     switch (label) {
-      case 'Artist':
+      case 'Authors':
         return (
           <Select
+            onChange={(value) => {
+              if (typeof value === 'number') {
+                setFilters((prevState) => {
+                  const newState = { ...prevState, authorId: value };
+                  return newState;
+                });
+              }
+            }}
             disabled={disabled}
-            data={['Artist 1', 'Artist 2', 'Artist 3']}
+            data={authors || []}
+            value={authors && filters.authorId ? authors[filters.authorId - 1].name : ''}
+            placeholder="Select the author"
           />
         );
-      case 'Location':
+      case 'Locations':
         return (
           <Select
+            onChange={(value) => {
+              if (typeof value === 'number') {
+                setFilters((prevState) => {
+                  const newState = { ...prevState, locationId: value };
+                  return newState;
+                });
+              }
+            }}
             disabled={disabled}
-            data={['Location 1', 'Location 2', 'Location 3']}
+            data={locations || []}
+            value={locations && filters.locationId ? locations[filters.locationId - 1].location : ''}
+            placeholder="Select the location"
           />
         );
       case 'Years':
         return (
           <div className={`${s.inputRangeWrapper} ${theme === 'light' ? s.light : s.dark}`}>
-            <Input className={s.input} placeholder="From" disabled={disabled} />
+            <Input
+              className={s.input}
+              placeholder="From"
+              disabled={disabled}
+              onChangeProp={(value) => {
+                if (typeof value === 'string') {
+                  setFilters((prevState) => {
+                    const newState = { ...prevState, from: value };
+                    return newState;
+                  });
+                }
+              }}
+            />
             <MinusIcon className={s.dividerMinus} />
-            <Input className={s.input} placeholder="To" disabled={disabled} />
+            <Input
+              className={s.input}
+              placeholder="To"
+              disabled={disabled}
+              onChangeProp={(value) => {
+                if (typeof value === 'string') {
+                  setFilters((prevState) => {
+                    const newState = { ...prevState, to: value };
+                    return newState;
+                  });
+                }
+              }}
+            />
           </div>
         );
       default:
@@ -88,7 +141,7 @@ function Filter({ isOpen, onClose }: FilterProps) {
         </div>
         <div className={s.filterBody}>
           <div>
-            {['Artist', 'Location', 'Years'].map((label, index) => (
+            {['Authors', 'Locations', 'Years'].map((label, index) => (
               <div
                 onTransitionEnd={(event) => expandedHandler(event, index)}
                 className={s.filter}
@@ -110,8 +163,22 @@ function Filter({ isOpen, onClose }: FilterProps) {
             ))}
           </div>
           <div className={s.btnWrapper}>
-            <TextButton>Show the results</TextButton>
-            <TextButton>Clear</TextButton>
+            <TextButton
+              onClick={() => {
+                dispatch(changeFilter(filters));
+                onClose();
+              }}
+            >
+              Show the results
+            </TextButton>
+            <TextButton
+              onClick={() => {
+                dispatch(resetFilter());
+                setFilters({} as IFilterState);
+              }}
+            >
+              Clear
+            </TextButton>
           </div>
         </div>
       </>

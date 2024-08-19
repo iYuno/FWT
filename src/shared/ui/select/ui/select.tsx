@@ -6,15 +6,19 @@ import s from './select.module.scss';
 import useTheme from '../../../../entities/theme/lib/useTheme';
 
 interface SelectProps {
-  data: string[];
-  onChange: (value: string) => void;
+  data: { id: number; name?: string; location?: string }[];
+  onChange: (value: string | number) => void;
   disabled: boolean;
+  value: string | number;
+  placeholder?: string;
 }
 
-function Select({ data, onChange, disabled }: SelectProps) {
+function Select({
+  data, onChange, disabled, value, placeholder,
+}: SelectProps) {
   const { theme } = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
-  const [currentValue, setCurrentValue] = useState<string | ''>('');
+  const [currentValue, setCurrentValue] = useState<string | number | ''>(value);
   const selecnWrapperRef = useRef <HTMLDivElement>(null);
 
   useEffect(() => {
@@ -30,6 +34,10 @@ function Select({ data, onChange, disabled }: SelectProps) {
     };
   }, [selecnWrapperRef]);
 
+  useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
+
   return (
     <div ref={selecnWrapperRef} className={`${s.selectWrapper} ${theme === 'light' ? s.light : s.dark}`} aria-expanded={isExpanded}>
       <Input
@@ -37,22 +45,23 @@ function Select({ data, onChange, disabled }: SelectProps) {
         onChange={(event) => setCurrentValue(event.target.value)}
         className={s.selectInput}
         onClick={() => setIsExpanded(true)}
-        placeholder="Select the location"
+        placeholder={placeholder}
         disabled={disabled}
       />
       <ul className={s.selectVariants}>
         {data.map((item) => (
           <li
-            key={item}
+            key={item.location || item.name}
           >
             <button
               type="button"
               onClick={() => {
-                setCurrentValue(item);
+                setCurrentValue(item.location || item.name || '');
+                onChange(item.id);
                 setIsExpanded(false);
               }}
             >
-              {item}
+              {item.location || item.name}
             </button>
           </li>
         ))}
@@ -60,5 +69,9 @@ function Select({ data, onChange, disabled }: SelectProps) {
     </div>
   );
 }
+
+Select.defaultProps = {
+  placeholder: '',
+};
 
 export default memo(Select);
