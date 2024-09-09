@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import {
+  useState, useEffect, useCallback, useMemo,
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import s from './pagination.module.scss';
 import ArrowIconTwo from '../../assets/icons/ui/arrowIconTwo';
@@ -11,27 +13,25 @@ interface PaginationProps {
   itemsPerPage: number;
 }
 
-function Pagination(props: PaginationProps) {
-  const {
-    className,
-    onChange,
-    currentPage,
-    totalItems,
-    itemsPerPage,
-  } = props;
-
+function Pagination({
+  className,
+  onChange,
+  currentPage,
+  totalItems,
+  itemsPerPage,
+}: PaginationProps) {
   const [currentPageState, setCurrentPageState] = useState(currentPage);
 
   useEffect(() => {
     setCurrentPageState(currentPage);
   }, [currentPage]);
 
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const totalPages = useMemo(() => Math.ceil(totalItems / itemsPerPage), [totalItems, itemsPerPage]);
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = useCallback((page: number) => {
     setCurrentPageState(page);
     onChange(page);
-  };
+  }, [onChange]);
 
   const renderPageNumbers = () => {
     const pageNumbers: (number | string)[] = [];
@@ -73,8 +73,9 @@ function Pagination(props: PaginationProps) {
         type="button"
         key={uuidv4()}
         onClick={() => handlePageChange(number)}
-        className={`${s.paginationBtn}`}
+        className={s.paginationBtn}
         aria-current={currentPageState === number}
+        aria-label={`Page ${number}`}
       >
         {number}
       </button>
@@ -82,7 +83,7 @@ function Pagination(props: PaginationProps) {
       <button
         type="button"
         key={uuidv4()}
-        className={`${s.paginationBtn}`}
+        className={s.paginationBtn}
         onClick={() => {
           let newPage = currentPageState;
           if (number === 'left') {
@@ -92,6 +93,7 @@ function Pagination(props: PaginationProps) {
           }
           handlePageChange(newPage);
         }}
+        aria-label={number === 'left' ? 'Previous pages' : 'Next pages'}
       >
         ...
       </button>
