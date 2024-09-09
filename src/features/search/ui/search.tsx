@@ -7,12 +7,11 @@ import s from './search.module.scss';
 import useTheme from '../../../entities/theme/lib/useTheme';
 import SearchLogo from '../../../shared/assets/icons/ui/searchIcon';
 import CloseIcon from '../../../shared/assets/icons/ui/closeIcon';
-
 import { changeQuery, resetQuery } from '../model/searchSlice';
 import { useAppDispatch } from '../../../shared/lib/store/redux';
 
 interface SearchProps extends InputHTMLAttributes<HTMLInputElement> {
-  readonly className?: string
+  className?: string;
 }
 
 function Search({ className, ...props }: SearchProps) {
@@ -26,7 +25,7 @@ function Search({ className, ...props }: SearchProps) {
   } = props;
 
   const { theme } = useTheme();
-  const [SearchData, setSearchData] = useState<string>('');
+  const [searchData, setSearchData] = useState<string>('');
   const dispatch = useAppDispatch();
 
   const debouncedDispatch = useCallback(
@@ -39,7 +38,7 @@ function Search({ className, ...props }: SearchProps) {
     debouncedDispatch(e.target.value);
   }, [debouncedDispatch]);
 
-  const resetSeatchData = () => {
+  const resetSearchData = () => {
     setSearchData('');
     dispatch(resetQuery());
   };
@@ -47,11 +46,20 @@ function Search({ className, ...props }: SearchProps) {
   return (
     <AntdInput
       type="text"
-      value={value ?? SearchData}
+      value={value ?? searchData}
       placeholder={placeholder}
       className={`${theme === 'light' ? s.light : s.dark} ${s.search} ${className}`}
       prefix={<SearchLogo className={s.prefix} />}
-      suffix={<button type="button" aria-label="clear" onClick={resetSeatchData} className={`${s.suffix} ${SearchData.length === 0 ? s.invisible : ''}`}><CloseIcon /></button>}
+      suffix={(
+        <button
+          type="button"
+          aria-label="clear"
+          onClick={resetSearchData}
+          className={`${s.suffix} ${searchData.length === 0 ? s.invisible : ''}`}
+        >
+          <CloseIcon />
+        </button>
+      )}
       onBlur={onBlur}
       onFocus={onFocus}
       onChange={onChange ?? onChangeSearchData}
