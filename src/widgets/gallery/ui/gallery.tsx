@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import PaintingCard from '../../../entities/painting/paintingCard/ui/paintingCard';
 import { useFetchAuthorsQuery } from '../../../shared/api/author/author';
 import { useFetchLocationsQuery } from '../../../shared/api/location/location';
@@ -16,7 +16,6 @@ function Gallery() {
   } = useAppSelector((state) => state.filter);
   const {
     data,
-    refetch: refetchPaintings,
     isFetching,
   } = useFetchPaintingsQuery({
     _page: currentPage,
@@ -31,20 +30,18 @@ function Gallery() {
   const { data: locations } = useFetchLocationsQuery();
 
   useEffect(() => {
-    refetchPaintings();
-  }, [currentPage]);
-
-  useEffect(() => {
     setCurrentPage(1);
   }, [query, locationId, authorId, from, to]);
 
+  const renderSkeletons = useMemo(() => (
+    <div className={s.gallery}>
+      {[...new Array(6)].map(() => <Skeleton className={s.cardSkeleton} />)}
+      <Skeleton className={s.paginationSkeleton} />
+    </div>
+  ), []);
+
   if (!data || !data.paintings || !authors || !locations) {
-    return (
-      <div className={s.gallery}>
-        {[...new Array(6)].map(() => <Skeleton className={s.cardSkeleton} />)}
-        <Skeleton className={s.paginationSkeleton} />
-      </div>
-    );
+    return renderSkeletons;
   }
 
   return (
