@@ -1,5 +1,5 @@
 import { Drawer } from 'antd';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import s from './filter.module.scss';
 import CloseIcon from '../../../shared/assets/icons/ui/closeIcon';
 import PlusIcon from '../../../shared/assets/icons/ui/plusIcon';
@@ -27,37 +27,35 @@ function Filter({ isOpen, onClose }: FilterProps) {
   const [filters, setFilters] = useState<IFilterState>({} as IFilterState);
   const dispatch = useAppDispatch();
 
-  const handleToggle = (index: number) => {
+  const handleToggle = useCallback((index: number) => {
     setExpandedFilters((prevState) => {
       const newExpandedFilters = [...prevState];
       newExpandedFilters[index] = !newExpandedFilters[index];
       return newExpandedFilters;
     });
-  };
+  }, []);
 
-  const expandedHandler = (event: React.TransitionEvent<HTMLDivElement>, index: number) => {
+  const expandedHandler = useCallback((event: React.TransitionEvent<HTMLDivElement>, index: number) => {
     if (event.target !== event.currentTarget) {
       return;
     }
 
-    if (!expandedFilters[index] && event.currentTarget.classList.contains(s.expanded)) {
-      event.currentTarget.classList.remove(s.expanded);
-    } else if (expandedFilters[index] && !event.currentTarget.classList.contains(s.expanded)) {
-      event.currentTarget.classList.add(s.expanded);
+    const { currentTarget } = event;
+    if (!expandedFilters[index] && currentTarget.classList.contains(s.expanded)) {
+      currentTarget.classList.remove(s.expanded);
+    } else if (expandedFilters[index] && !currentTarget.classList.contains(s.expanded)) {
+      currentTarget.classList.add(s.expanded);
     }
-  };
+  }, [expandedFilters]);
 
-  const renderInput = (label: string, disabled: boolean) => {
+  const renderInput = useCallback((label: string, disabled: boolean) => {
     switch (label) {
       case 'Authors':
         return (
           <Select
             onChange={(value) => {
               if (typeof value === 'number') {
-                setFilters((prevState) => {
-                  const newState = { ...prevState, authorId: value };
-                  return newState;
-                });
+                setFilters((prevState) => ({ ...prevState, authorId: value }));
               }
             }}
             disabled={disabled}
@@ -71,10 +69,7 @@ function Filter({ isOpen, onClose }: FilterProps) {
           <Select
             onChange={(value) => {
               if (typeof value === 'number') {
-                setFilters((prevState) => {
-                  const newState = { ...prevState, locationId: value };
-                  return newState;
-                });
+                setFilters((prevState) => ({ ...prevState, locationId: value }));
               }
             }}
             disabled={disabled}
@@ -92,10 +87,7 @@ function Filter({ isOpen, onClose }: FilterProps) {
               disabled={disabled}
               onChangeProp={(value) => {
                 if (typeof value === 'string') {
-                  setFilters((prevState) => {
-                    const newState = { ...prevState, from: value };
-                    return newState;
-                  });
+                  setFilters((prevState) => ({ ...prevState, from: value }));
                 }
               }}
             />
@@ -106,10 +98,7 @@ function Filter({ isOpen, onClose }: FilterProps) {
               disabled={disabled}
               onChangeProp={(value) => {
                 if (typeof value === 'string') {
-                  setFilters((prevState) => {
-                    const newState = { ...prevState, to: value };
-                    return newState;
-                  });
+                  setFilters((prevState) => ({ ...prevState, to: value }));
                 }
               }}
             />
@@ -118,14 +107,14 @@ function Filter({ isOpen, onClose }: FilterProps) {
       default:
         return null;
     }
-  };
+  }, [authors, filters, locations, theme]);
 
   return (
     <Drawer
       open={isOpen}
       onClose={onClose}
       getContainer={false}
-      rootClassName={s.rootFillter}
+      rootClassName={s.rootFilter}
       closeIcon={false}
       classNames={{
         content: s.drawerContent,
