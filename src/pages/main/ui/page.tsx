@@ -1,8 +1,8 @@
-import { Header } from "antd/es/layout/layout";
-import Search from "antd/es/transfer/search";
 import { useState } from "react";
 import { Gallery } from "@/widgets/gallery";
+import { Header } from "@/widgets/header";
 import { Filter } from "@/features/filter";
+import { Search } from "@/features/search";
 import { FilterIcon } from "@/shared/assets/icons";
 import IconButton from "@/shared/ui/iconButton/iconButton";
 import s from "./main.module.scss";
@@ -31,4 +31,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export { MainPage };

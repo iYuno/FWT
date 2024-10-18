@@ -1,4 +1,6 @@
-$skeleton-light: lighten(#181818, 5%);
+@use 'sass:color';
+
+$skeleton-light: color.adjust(#181818, $lightness: 5%);
 
 .app.dark {
   --primary_bg: #121212;

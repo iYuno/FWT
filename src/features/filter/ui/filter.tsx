@@ -5,8 +5,8 @@ import { useFetchLocationsQuery } from "@/shared/api/location/location";
 import { MinusIcon, CloseIcon, PlusIcon } from "@/shared/assets/icons";
 import { useAppDispatch } from "@/shared/lib/store/redux";
 import useTheme from "@/shared/lib/useTheme";
+import { Select } from "@/shared/ui";
 import Input from "@/shared/ui/input/input";
-import Select from "@/shared/ui/select/select";
 import TextButton from "@/shared/ui/textButton/textButton";
 import { changeFilter, resetFilter } from "../model/filterSlice";
 import { IFilterState } from "../model/types";
@@ -62,7 +62,7 @@ function Filter({ isOpen, onClose }: FilterProps) {
           return (
             <Select
               onChange={value => {
-                if (typeof value === "number") {
+                if (typeof value === "number" || value === null) {
                   setFilters(prevState => ({ ...prevState, authorId: value }));
                 }
               }}
@@ -80,7 +80,7 @@ function Filter({ isOpen, onClose }: FilterProps) {
           return (
             <Select
               onChange={value => {
-                if (typeof value === "number") {
+                if (typeof value === "number" || value === null) {
                   setFilters(prevState => ({
                     ...prevState,
                     locationId: value,

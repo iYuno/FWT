@@ -1,12 +1,12 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Gallery } from "@/widgets/gallery";
+import { MainPage } from "@/pages/main";
 import Layout from "../layout/layout";
 
 function AppRouter() {
   const router = createBrowserRouter([
     {
       path: "/FWT/",
-      element: <Gallery />,
+      element: <MainPage />,
     },
   ]);
 

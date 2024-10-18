@@ -8,6 +8,9 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         api: "modern-compiler",
+        additionalData: `
+         @use "@/app/styles/mixins/_mixins.scss" as *;
+        `,
       },
     },
   },

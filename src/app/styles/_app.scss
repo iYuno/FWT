@@ -1,12 +1,14 @@
-@import 'themes/light.scss';
-@import 'themes/dark.scss';
+@use 'themes/light' as *; 
+@use 'themes/dark' as *;
 
 .app {
   --secondary-gray: #9c9c9c;
+  position: relative;
+  background-color: var(--primary_bg);
   * {
     font-family:  'Inter', sans-serif;
   }
-  position: relative;
+
   h1 {
     margin: 0;
     text-transform: uppercase;
@@ -23,27 +25,23 @@
       line-height: 19px;
     }
   }
-
-  background-color: var(--primary_bg);
   
-   .layout {
+  .layout {
     margin: 0 auto;
     height: 100vh;
     @media screen and (min-width: 320px) {
-      // margin-left: 20px;
-      // margin-right: 20px;
       max-width: 280px;
       overflow: hidden;
-     }
-  
-     @media screen and (min-width: 768px) {
+    }
+
+    @media screen and (min-width: 768px) {
       height: 100vh;
       max-width: 728px;
-     }
-  
-     @media screen and (min-width: 1280px) {
+    }
+
+    @media screen and (min-width: 1280px) {
       max-width: 1240px;
       padding-bottom: 0;
-     }
+    }
   }
 }

@@ -20,8 +20,8 @@ function Gallery() {
     q: query,
     _gte: from as string,
     _lte: to as string,
-    authorId: authorId as number,
-    locationId: locationId as number,
+    authorId: !!authorId ? authorId : undefined,
+    locationId: !!locationId ? locationId : undefined,
   });
   const { data: authors } = useFetchAuthorsQuery();
   const { data: locations } = useFetchLocationsQuery();

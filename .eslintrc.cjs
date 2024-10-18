@@ -6,7 +6,7 @@ module.exports = {
     "plugin:@conarti/feature-sliced/recommended",
     "plugin:@typescript-eslint/recommended",
   ],
-  plugins: ["prettier", "stylelint"],
+  plugins: ["prettier"],
   settings: {
     "import/resolver": {
       typescript: {
