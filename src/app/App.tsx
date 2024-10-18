@@ -1,6 +1,6 @@
-import './styles/_normalize.scss';
-import AppRouter from './routes/appRouter';
-import Providers from './providers/providers';
+import "./styles/_normalize.scss";
+import Providers from "./providers/providers";
+import AppRouter from "./routes/appRouter";
 
 function App() {
   return (

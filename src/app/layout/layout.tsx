@@ -1,5 +1,5 @@
-import useTheme from '../../entities/theme/lib/useTheme';
-import '../styles/_app.scss';
+import useTheme from "@/shared/lib/useTheme";
+import "../styles/_app.scss";
 
 interface LayoutProps {
   readonly children: JSX.Element;
@@ -8,10 +8,8 @@ interface LayoutProps {
 function Layout({ children }: LayoutProps) {
   const { theme } = useTheme();
   return (
-    <div className={`app ${theme || 'light'}`}>
-      <div className="layout">
-        {children}
-      </div>
+    <div className={`app ${theme || "light"}`}>
+      <div className="layout">{children}</div>
     </div>
   );
 }

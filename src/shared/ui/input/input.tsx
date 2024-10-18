@@ -1,13 +1,11 @@
-import { Input as AntdInput } from 'antd';
-import {
-  ChangeEvent, InputHTMLAttributes, memo, useState,
-} from 'react';
-import s from './input.module.scss';
-import useTheme from '../../../entities/theme/lib/useTheme';
+import { Input as AntdInput } from "antd";
+import { ChangeEvent, InputHTMLAttributes, memo, useState } from "react";
+import useTheme from "../../lib/useTheme";
+import s from "./input.module.scss";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  readonly className?: string,
-  onChangeProp: (value: string) => void,
+  readonly className?: string;
+  onChangeProp: (value: string) => void;
 }
 
 function Input({ className, ...props }: InputProps) {
@@ -22,7 +20,7 @@ function Input({ className, ...props }: InputProps) {
   } = props;
 
   const { theme } = useTheme();
-  const [inputData, setinputData] = useState<string>('');
+  const [inputData, setinputData] = useState<string>("");
 
   const onChangeinputData = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 4) {
@@ -37,7 +35,7 @@ function Input({ className, ...props }: InputProps) {
       maxLength={4}
       value={value ?? inputData}
       placeholder={placeholder}
-      className={`${theme === 'light' ? s.light : s.dark} ${s.input} ${className}`}
+      className={`${theme === "light" ? s.light : s.dark} ${s.input} ${className}`}
       onBlur={onBlur}
       // onFocus={(event) => event.target.blur()}
       onChange={onChangeinputData}
@@ -47,7 +45,7 @@ function Input({ className, ...props }: InputProps) {
 }
 
 Input.defaultProps = {
-  className: '',
+  className: "",
 };
 
 export default memo(Input);

@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { IPaintingList } from './types';
-import fetchPaintingsFillteredList from './paintingListThunk';
+import { createSlice } from "@reduxjs/toolkit";
+import fetchPaintingsFillteredList from "./paintingListThunk";
+import { IPaintingList } from "./types";
 
 const initialState: IPaintingList = {
   paintings: [],
@@ -10,27 +10,27 @@ const initialState: IPaintingList = {
 };
 
 const paintingFilteredListSlice = createSlice({
-  name: 'paintingFilteredList',
+  name: "paintingFilteredList",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(
-        fetchPaintingsFillteredList.pending,
-        (state) => ({ ...state, isLoading: true, error: null }),
-      )
-      .addCase(
-        fetchPaintingsFillteredList.fulfilled,
-        (state, action) => ({
-          ...state, isLoading: false, error: null, paintings: [...action.payload],
-        }),
-      )
-      .addCase(
-        fetchPaintingsFillteredList.rejected,
-        (state, action) => (
-          { ...state, isLoading: false, error: action.payload ?? null }
-        ),
-      );
+      .addCase(fetchPaintingsFillteredList.pending, state => ({
+        ...state,
+        isLoading: true,
+        error: null,
+      }))
+      .addCase(fetchPaintingsFillteredList.fulfilled, (state, action) => ({
+        ...state,
+        isLoading: false,
+        error: null,
+        paintings: [...action.payload],
+      }))
+      .addCase(fetchPaintingsFillteredList.rejected, (state, action) => ({
+        ...state,
+        isLoading: false,
+        error: action.payload ?? null,
+      }));
   },
 });
 

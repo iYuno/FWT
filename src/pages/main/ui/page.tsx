@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import Filter from '../../../features/filter/ui/filter';
-import Search from '../../../features/search/ui/search';
-import FilterIcon from '../../../shared/assets/icons/ui/filterIcon';
-import IconButton from '../../../shared/ui/iconButton/iconButton';
-import Gallery from '../../../widgets/gallery/ui/gallery';
-import Header from '../../../widgets/header/ui/header';
-import s from './main.module.scss';
+import { Header } from "antd/es/layout/layout";
+import Search from "antd/es/transfer/search";
+import { useState } from "react";
+import { Gallery } from "@/widgets/gallery";
+import { Filter } from "@/features/filter";
+import { FilterIcon } from "@/shared/assets/icons";
+import IconButton from "@/shared/ui/iconButton/iconButton";
+import s from "./main.module.scss";
 
 function MainPage() {
   const [isOpen, setIsOpen] = useState(false);

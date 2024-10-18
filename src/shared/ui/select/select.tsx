@@ -1,9 +1,7 @@
-import { Input } from 'antd';
-import {
-  memo, useEffect, useRef, useState,
-} from 'react';
-import s from './select.module.scss';
-import useTheme from '../../../../entities/theme/lib/useTheme';
+import { Input } from "antd";
+import { memo, useEffect, useRef, useState } from "react";
+import useTheme from "../../lib/useTheme";
+import s from "./select.module.scss";
 
 interface SelectProps {
   data: { id: number; name?: string; location?: string }[];
@@ -13,24 +11,25 @@ interface SelectProps {
   placeholder?: string;
 }
 
-function Select({
-  data, onChange, disabled, value, placeholder,
-}: SelectProps) {
+function Select({ data, onChange, disabled, value, placeholder }: SelectProps) {
   const { theme } = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
-  const [currentValue, setCurrentValue] = useState<string | number | ''>(value);
-  const selecnWrapperRef = useRef <HTMLDivElement>(null);
+  const [currentValue, setCurrentValue] = useState<string | number | "">(value);
+  const selecnWrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (selecnWrapperRef.current && !selecnWrapperRef.current.contains(event.target as Node)) {
+      if (
+        selecnWrapperRef.current &&
+        !selecnWrapperRef.current.contains(event.target as Node)
+      ) {
         setIsExpanded(false);
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [selecnWrapperRef]);
 
@@ -39,28 +38,28 @@ function Select({
   }, [value]);
 
   return (
-    <div ref={selecnWrapperRef} className={`${s.selectWrapper} ${theme === 'light' ? s.light : s.dark}`} aria-expanded={isExpanded}>
+    <div
+      ref={selecnWrapperRef}
+      className={`${s.selectWrapper} ${theme === "light" ? s.light : s.dark}`}
+      aria-expanded={isExpanded}>
       <Input
         value={currentValue}
-        onChange={(event) => setCurrentValue(event.target.value)}
+        onChange={event => setCurrentValue(event.target.value)}
         className={s.selectInput}
         onClick={() => setIsExpanded(true)}
         placeholder={placeholder}
         disabled={disabled}
       />
       <ul className={s.selectVariants}>
-        {data.map((item) => (
-          <li
-            key={item.location || item.name}
-          >
+        {data.map(item => (
+          <li key={item.location || item.name}>
             <button
               type="button"
               onClick={() => {
-                setCurrentValue(item.location || item.name || '');
+                setCurrentValue(item.location || item.name || "");
                 onChange(item.id);
                 setIsExpanded(false);
-              }}
-            >
+              }}>
               {item.location || item.name}
             </button>
           </li>
@@ -71,7 +70,7 @@ function Select({
 }
 
 Select.defaultProps = {
-  placeholder: '',
+  placeholder: "",
 };
 
 export default memo(Select);

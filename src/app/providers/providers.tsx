@@ -1,6 +1,6 @@
-import { Provider } from 'react-redux';
-import { store } from '../store';
-import ThemeProvider from '../../entities/theme/ui/themeProvider';
+import { Provider } from "react-redux";
+import { ThemeProvider } from "@/entities/theme";
+import { store } from "../store";
 
 interface ProvidersProps {
   readonly children: JSX.Element;

@@ -1,8 +1,13 @@
-import { IconProps } from '../../../api/types/iconProps';
+import { IconProps } from "../../../api/types/iconProps";
 
 function CloseIcon({ className }: IconProps) {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      className={className}
+      xmlns="http://www.w3.org/2000/svg">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -12,4 +17,4 @@ function CloseIcon({ className }: IconProps) {
   );
 }
 
-export default CloseIcon;
+export { CloseIcon };

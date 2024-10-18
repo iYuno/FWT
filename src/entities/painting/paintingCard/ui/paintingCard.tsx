@@ -1,5 +1,5 @@
-import s from './paintingCard.module.scss';
-import { BASE_URL } from '../../../../shared/api/base';
+import { BASE_URL } from "@/shared/api/base";
+import s from "./paintingCard.module.scss";
 
 interface PaintingCardProps {
   author: string;
@@ -14,7 +14,11 @@ interface PaintingCardProps {
 function PaintingCard({ author, location, painting }: PaintingCardProps) {
   return (
     <figure className={s.paintingCard}>
-      <img src={BASE_URL + painting.imageUrl} alt={painting.name} className={s.image} />
+      <img
+        src={BASE_URL + painting.imageUrl}
+        alt={painting.name}
+        className={s.image}
+      />
       <figcaption className={s.figcaption}>
         <div className={s.previewInfo}>
           <h1 className={s.upperText}>{painting.name}</h1>
@@ -29,4 +33,4 @@ function PaintingCard({ author, location, painting }: PaintingCardProps) {
   );
 }
 
-export default PaintingCard;
+export { PaintingCard };

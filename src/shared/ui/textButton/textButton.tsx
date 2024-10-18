@@ -1,4 +1,4 @@
-import s from './button.module.scss';
+import s from "./button.module.scss";
 
 interface TextButtonProps {
   readonly children: string | number | JSX.Element;
@@ -9,14 +9,17 @@ interface TextButtonProps {
 }
 
 function TextButton({
-  children, disabled, className, onClick, isSubmit,
+  children,
+  disabled,
+  className,
+  onClick,
+  isSubmit,
 }: TextButtonProps) {
   return (
     <button
-      type={isSubmit ? 'submit' : 'button'}
+      type={isSubmit ? "submit" : "button"}
       onClick={onClick}
-      className={`${disabled && s.disabled} ${s.button} ${className}`}
-    >
+      className={`${disabled && s.disabled} ${s.button} ${className}`}>
       {children}
     </button>
   );
@@ -24,7 +27,7 @@ function TextButton({
 
 TextButton.defaultProps = {
   disabled: false,
-  className: '',
+  className: "",
   onClick: () => {},
   isSubmit: false,
 };

@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { ISearchState } from './types';
+import { createSlice } from "@reduxjs/toolkit";
+import { ISearchState } from "./types";
 
 const initialState: ISearchState = {
   query: null,
 };
 
 const searchSlice = createSlice({
-  name: 'search',
+  name: "search",
   initialState,
   reducers: {
     changeQuery: (_, action) => ({ query: action.payload }),
@@ -14,4 +14,4 @@ const searchSlice = createSlice({
   },
 });
 export const { changeQuery, resetQuery } = searchSlice.actions;
-export default searchSlice;
+export { searchSlice };

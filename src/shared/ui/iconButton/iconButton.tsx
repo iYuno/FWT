@@ -1,4 +1,4 @@
-import s from './iconButton.module.scss';
+import s from "./iconButton.module.scss";
 
 interface IconButtonProps {
   readonly children: JSX.Element;
@@ -6,22 +6,19 @@ interface IconButtonProps {
   readonly onClick?: () => void;
 }
 
-function IconButton({
-  children, className, onClick,
-}: IconButtonProps) {
+function IconButton({ children, className, onClick }: IconButtonProps) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`${s.button} ${className}`}
-    >
+      className={`${s.button} ${className}`}>
       {children}
     </button>
   );
 }
 
 IconButton.defaultProps = {
-  className: '',
+  className: "",
   onClick: () => {},
 };
 

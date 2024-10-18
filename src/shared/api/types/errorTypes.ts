@@ -1,10 +1,10 @@
 export interface ErrorType {
-  readonly message: string
+  readonly message: string;
   readonly response: {
-    readonly status?: string
-  }
+    readonly status?: string;
+  };
 }
 export interface RejectedDataType {
-  readonly messageError: string
-  readonly status?: string
+  readonly messageError: string;
+  readonly status?: string;
 }

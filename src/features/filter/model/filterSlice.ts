@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { IFilterState } from './types';
+import { createSlice } from "@reduxjs/toolkit";
+import { IFilterState } from "./types";
 
 const initialState: IFilterState = {
   locationId: null,
@@ -9,7 +9,7 @@ const initialState: IFilterState = {
 };
 
 const filterSlice = createSlice({
-  name: 'filter',
+  name: "filter",
   initialState,
   reducers: {
     changeFilter: (_, action) => ({ ...action.payload }),
@@ -17,7 +17,5 @@ const filterSlice = createSlice({
   },
 });
 
-export const {
-  changeFilter, resetFilter,
-} = filterSlice.actions;
-export default filterSlice;
+export const { changeFilter, resetFilter } = filterSlice.actions;
+export { filterSlice };

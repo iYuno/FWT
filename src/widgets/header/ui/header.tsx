@@ -1,14 +1,14 @@
-import ChangeTheme from '../../../features/changeTheme/ui/changeTheme';
-import Logo from '../../../shared/assets/icons/ui/logoIcon';
-import s from './header.module.scss';
+import { ChangeTheme } from "@/features/changeTheme";
+import { LogoIcon } from "@/shared/assets/icons";
+import s from "./header.module.scss";
 
 function Header() {
   return (
     <header className={s.header}>
-      <Logo className={s.logo} />
+      <LogoIcon className={s.logo} />
       <ChangeTheme />
     </header>
   );
 }
 
-export default Header;
+export { Header };

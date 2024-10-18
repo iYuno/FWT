@@ -1,17 +1,13 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { ILocation } from './types';
-import axiosBaseQuery, { BASE_URL } from '../base';
+import { createApi } from "@reduxjs/toolkit/query/react";
+import axiosBaseQuery, { BASE_URL } from "../base";
+import { ILocation } from "./types";
 
-const API_URL = '/locations';
-
-export interface ILocationParams {
-
-}
+const API_URL = "/locations";
 
 export const locationApi = createApi({
-  reducerPath: 'locationApi',
+  reducerPath: "locationApi",
   baseQuery: axiosBaseQuery({ baseUrl: BASE_URL }),
-  endpoints: (build) => ({
+  endpoints: build => ({
     fetchLocations: build.query<ILocation[], void>({
       query: () => ({
         url: API_URL,

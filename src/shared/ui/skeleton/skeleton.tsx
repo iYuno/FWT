@@ -1,4 +1,4 @@
-import s from './skeleton.module.scss';
+import s from "./skeleton.module.scss";
 
 interface SkeletonProps {
   className?: string;
@@ -9,7 +9,7 @@ function Skeleton({ className }: SkeletonProps) {
 }
 
 Skeleton.defaultProps = {
-  className: '',
+  className: "",
 };
 
 export default Skeleton;

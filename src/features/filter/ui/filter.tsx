@@ -1,18 +1,16 @@
-import { Drawer } from 'antd';
-import { useState, useCallback } from 'react';
-import s from './filter.module.scss';
-import CloseIcon from '../../../shared/assets/icons/ui/closeIcon';
-import PlusIcon from '../../../shared/assets/icons/ui/plusIcon';
-import MinusIcon from '../../../shared/assets/icons/ui/minusIcon';
-import Select from '../../../shared/ui/select/ui/select';
-import Input from '../../../shared/ui/input/input';
-import useTheme from '../../../entities/theme/lib/useTheme';
-import TextButton from '../../../shared/ui/textButton/textButton';
-import { useFetchAuthorsQuery } from '../../../shared/api/author/author';
-import { useFetchLocationsQuery } from '../../../shared/api/location/location';
-import { useAppDispatch } from '../../../shared/lib/store/redux';
-import { IFilterState } from '../model/types';
-import { changeFilter, resetFilter } from '../model/filterSlice';
+import { Drawer } from "antd";
+import { useState, useCallback } from "react";
+import { useFetchAuthorsQuery } from "@/shared/api/author/author";
+import { useFetchLocationsQuery } from "@/shared/api/location/location";
+import { MinusIcon, CloseIcon, PlusIcon } from "@/shared/assets/icons";
+import { useAppDispatch } from "@/shared/lib/store/redux";
+import useTheme from "@/shared/lib/useTheme";
+import Input from "@/shared/ui/input/input";
+import Select from "@/shared/ui/select/select";
+import TextButton from "@/shared/ui/textButton/textButton";
+import { changeFilter, resetFilter } from "../model/filterSlice";
+import { IFilterState } from "../model/types";
+import s from "./filter.module.scss";
 
 interface FilterProps {
   isOpen: boolean;
@@ -28,86 +26,110 @@ function Filter({ isOpen, onClose }: FilterProps) {
   const dispatch = useAppDispatch();
 
   const handleToggle = useCallback((index: number) => {
-    setExpandedFilters((prevState) => {
+    setExpandedFilters(prevState => {
       const newExpandedFilters = [...prevState];
       newExpandedFilters[index] = !newExpandedFilters[index];
       return newExpandedFilters;
     });
   }, []);
 
-  const expandedHandler = useCallback((event: React.TransitionEvent<HTMLDivElement>, index: number) => {
-    if (event.target !== event.currentTarget) {
-      return;
-    }
+  const expandedHandler = useCallback(
+    (event: React.TransitionEvent<HTMLDivElement>, index: number) => {
+      if (event.target !== event.currentTarget) {
+        return;
+      }
 
-    const { currentTarget } = event;
-    if (!expandedFilters[index] && currentTarget.classList.contains(s.expanded)) {
-      currentTarget.classList.remove(s.expanded);
-    } else if (expandedFilters[index] && !currentTarget.classList.contains(s.expanded)) {
-      currentTarget.classList.add(s.expanded);
-    }
-  }, [expandedFilters]);
+      const { currentTarget } = event;
+      if (
+        !expandedFilters[index] &&
+        currentTarget.classList.contains(s.expanded)
+      ) {
+        currentTarget.classList.remove(s.expanded);
+      } else if (
+        expandedFilters[index] &&
+        !currentTarget.classList.contains(s.expanded)
+      ) {
+        currentTarget.classList.add(s.expanded);
+      }
+    },
+    [expandedFilters],
+  );
 
-  const renderInput = useCallback((label: string, disabled: boolean) => {
-    switch (label) {
-      case 'Authors':
-        return (
-          <Select
-            onChange={(value) => {
-              if (typeof value === 'number') {
-                setFilters((prevState) => ({ ...prevState, authorId: value }));
-              }
-            }}
-            disabled={disabled}
-            data={authors || []}
-            value={authors && filters.authorId ? authors[filters.authorId - 1].name : ''}
-            placeholder="Select the author"
-          />
-        );
-      case 'Locations':
-        return (
-          <Select
-            onChange={(value) => {
-              if (typeof value === 'number') {
-                setFilters((prevState) => ({ ...prevState, locationId: value }));
-              }
-            }}
-            disabled={disabled}
-            data={locations || []}
-            value={locations && filters.locationId ? locations[filters.locationId - 1].location : ''}
-            placeholder="Select the location"
-          />
-        );
-      case 'Years':
-        return (
-          <div className={`${s.inputRangeWrapper} ${theme === 'light' ? s.light : s.dark}`}>
-            <Input
-              className={s.input}
-              placeholder="From"
-              disabled={disabled}
-              onChangeProp={(value) => {
-                if (typeof value === 'string') {
-                  setFilters((prevState) => ({ ...prevState, from: value }));
+  const renderInput = useCallback(
+    (label: string, disabled: boolean) => {
+      switch (label) {
+        case "Authors":
+          return (
+            <Select
+              onChange={value => {
+                if (typeof value === "number") {
+                  setFilters(prevState => ({ ...prevState, authorId: value }));
                 }
               }}
-            />
-            <MinusIcon className={s.dividerMinus} />
-            <Input
-              className={s.input}
-              placeholder="To"
               disabled={disabled}
-              onChangeProp={(value) => {
-                if (typeof value === 'string') {
-                  setFilters((prevState) => ({ ...prevState, to: value }));
+              data={authors || []}
+              value={
+                authors && filters.authorId
+                  ? authors[filters.authorId - 1].name
+                  : ""
+              }
+              placeholder="Select the author"
+            />
+          );
+        case "Locations":
+          return (
+            <Select
+              onChange={value => {
+                if (typeof value === "number") {
+                  setFilters(prevState => ({
+                    ...prevState,
+                    locationId: value,
+                  }));
                 }
               }}
+              disabled={disabled}
+              data={locations || []}
+              value={
+                locations && filters.locationId
+                  ? locations[filters.locationId - 1].location
+                  : ""
+              }
+              placeholder="Select the location"
             />
-          </div>
-        );
-      default:
-        return null;
-    }
-  }, [authors, filters, locations, theme]);
+          );
+        case "Years":
+          return (
+            <div
+              className={`${s.inputRangeWrapper} ${theme === "light" ? s.light : s.dark}`}>
+              <Input
+                className={s.input}
+                placeholder="From"
+                disabled={disabled}
+                onChangeProp={value => {
+                  if (typeof value === "string") {
+                    setFilters(prevState => ({ ...prevState, from: value }));
+                  }
+                }}
+              />
+              <MinusIcon className={s.dividerMinus} />
+              <Input
+                className={s.input}
+                placeholder="To"
+                disabled={disabled}
+                onChangeProp={value => {
+                  if (typeof value === "string") {
+                    setFilters(prevState => ({ ...prevState, to: value }));
+                  }
+                }}
+              />
+            </div>
+          );
+        default:
+          return null;
+      }
+    },
+    [authors, filters, locations, theme],
+  );
 
   return (
     <Drawer
@@ -120,26 +142,31 @@ function Filter({ isOpen, onClose }: FilterProps) {
         content: s.drawerContent,
         body: s.drawerBody,
       }}
-      mask={false}
-    >
+      mask={false}>
       <>
         <div className={s.filterHeader}>
-          <button type="button" aria-label="close filter" className={s.iconBtn} onClick={onClose}>
+          <button
+            type="button"
+            aria-label="close filter"
+            className={s.iconBtn}
+            onClick={onClose}>
             <CloseIcon className={s.closeIcon} />
           </button>
         </div>
         <div className={s.filterBody}>
           <div>
-            {['Authors', 'Locations', 'Years'].map((label, index) => (
+            {["Authors", "Locations", "Years"].map((label, index) => (
               <div
-                onTransitionEnd={(event) => expandedHandler(event, index)}
+                onTransitionEnd={event => expandedHandler(event, index)}
                 className={s.filter}
                 aria-expanded={expandedFilters[index]}
-                key={label}
-              >
+                key={label}>
                 <div className={s.filterLabel}>
                   <h1>{label}</h1>
-                  <button type="button" className={s.iconBtn} onClick={() => handleToggle(index)}>
+                  <button
+                    type="button"
+                    className={s.iconBtn}
+                    onClick={() => handleToggle(index)}>
                     {expandedFilters[index] ? (
                       <MinusIcon className={s.closeIcon} />
                     ) : (
@@ -156,16 +183,14 @@ function Filter({ isOpen, onClose }: FilterProps) {
               onClick={() => {
                 dispatch(changeFilter(filters));
                 onClose();
-              }}
-            >
+              }}>
               Show the results
             </TextButton>
             <TextButton
               onClick={() => {
                 dispatch(resetFilter());
                 setFilters({} as IFilterState);
-              }}
-            >
+              }}>
               Clear
             </TextButton>
           </div>
@@ -175,4 +200,4 @@ function Filter({ isOpen, onClose }: FilterProps) {
   );
 }
 
-export default Filter;
+export { Filter };

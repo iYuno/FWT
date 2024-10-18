@@ -1,9 +1,7 @@
-import {
-  useState, useEffect, useCallback, useMemo,
-} from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import s from './pagination.module.scss';
-import ArrowIconTwo from '../../assets/icons/ui/arrowIconTwo';
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { ArrowIconTwo } from "../../assets/icons";
+import s from "./pagination.module.scss";
 
 interface PaginationProps {
   className?: string;
@@ -26,12 +24,18 @@ function Pagination({
     setCurrentPageState(currentPage);
   }, [currentPage]);
 
-  const totalPages = useMemo(() => Math.ceil(totalItems / itemsPerPage), [totalItems, itemsPerPage]);
+  const totalPages = useMemo(
+    () => Math.ceil(totalItems / itemsPerPage),
+    [totalItems, itemsPerPage],
+  );
 
-  const handlePageChange = useCallback((page: number) => {
-    setCurrentPageState(page);
-    onChange(page);
-  }, [onChange]);
+  const handlePageChange = useCallback(
+    (page: number) => {
+      setCurrentPageState(page);
+      onChange(page);
+    },
+    [onChange],
+  );
 
   const renderPageNumbers = () => {
     const pageNumbers: (number | string)[] = [];
@@ -46,17 +50,17 @@ function Pagination({
       for (let i = 1; i <= maxPagesToShow - 1; i += 1) {
         pageNumbers.push(i);
       }
-      pageNumbers.push('right');
+      pageNumbers.push("right");
       pageNumbers.push(totalPages);
     } else if (currentPageState > totalPages - halfPagesToShow - 2) {
       pageNumbers.push(1);
-      pageNumbers.push('left');
+      pageNumbers.push("left");
       for (let i = totalPages - maxPagesToShow + 2; i <= totalPages; i += 1) {
         pageNumbers.push(i);
       }
     } else {
       pageNumbers.push(1);
-      pageNumbers.push('left');
+      pageNumbers.push("left");
       for (
         let i = currentPageState - halfPagesToShow;
         i <= currentPageState + halfPagesToShow;
@@ -64,40 +68,43 @@ function Pagination({
       ) {
         pageNumbers.push(i);
       }
-      pageNumbers.push('right');
+      pageNumbers.push("right");
       pageNumbers.push(totalPages);
     }
 
-    return pageNumbers.map((number) => (typeof number === 'number' ? (
-      <button
-        type="button"
-        key={uuidv4()}
-        onClick={() => handlePageChange(number)}
-        className={s.paginationBtn}
-        aria-current={currentPageState === number}
-        aria-label={`Page ${number}`}
-      >
-        {number}
-      </button>
-    ) : (
-      <button
-        type="button"
-        key={uuidv4()}
-        className={s.paginationBtn}
-        onClick={() => {
-          let newPage = currentPageState;
-          if (number === 'left') {
-            newPage = Math.max(1, currentPageState - maxPagesToShow + 2);
-          } else if (number === 'right') {
-            newPage = Math.min(totalPages, currentPageState + maxPagesToShow - 2);
-          }
-          handlePageChange(newPage);
-        }}
-        aria-label={number === 'left' ? 'Previous pages' : 'Next pages'}
-      >
-        ...
-      </button>
-    )));
+    return pageNumbers.map(number =>
+      typeof number === "number" ? (
+        <button
+          type="button"
+          key={uuidv4()}
+          onClick={() => handlePageChange(number)}
+          className={s.paginationBtn}
+          aria-current={currentPageState === number}
+          aria-label={`Page ${number}`}>
+          {number}
+        </button>
+      ) : (
+        <button
+          type="button"
+          key={uuidv4()}
+          className={s.paginationBtn}
+          onClick={() => {
+            let newPage = currentPageState;
+            if (number === "left") {
+              newPage = Math.max(1, currentPageState - maxPagesToShow + 2);
+            } else if (number === "right") {
+              newPage = Math.min(
+                totalPages,
+                currentPageState + maxPagesToShow - 2,
+              );
+            }
+            handlePageChange(newPage);
+          }}
+          aria-label={number === "left" ? "Previous pages" : "Next pages"}>
+          ...
+        </button>
+      ),
+    );
   };
 
   return (
@@ -110,8 +117,7 @@ function Pagination({
           if (currentPageState > 1) {
             handlePageChange(currentPageState - 1);
           }
-        }}
-      >
+        }}>
         <ArrowIconTwo className={s.arrowIcon} />
       </button>
       {renderPageNumbers()}
@@ -123,8 +129,7 @@ function Pagination({
           if (currentPageState < totalPages) {
             handlePageChange(currentPageState + 1);
           }
-        }}
-      >
+        }}>
         <ArrowIconTwo className={s.arrowIcon} />
       </button>
     </div>
@@ -132,7 +137,7 @@ function Pagination({
 }
 
 Pagination.defaultProps = {
-  className: '',
+  className: "",
 };
 
 export default Pagination;

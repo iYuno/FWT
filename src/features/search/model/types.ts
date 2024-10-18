@@ -1,3 +1,3 @@
 export interface ISearchState {
-  readonly query: string | null
+  readonly query: string | null;
 }
