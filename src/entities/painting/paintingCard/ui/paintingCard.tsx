@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { BASE_URL } from "@/shared/api/base";
+import { DangerIcon } from "@/shared/assets/icons/ui/dangerIcon";
 import s from "./paintingCard.module.scss";
 
 interface PaintingCardProps {
@@ -12,13 +14,27 @@ interface PaintingCardProps {
 }
 
 function PaintingCard({ author, location, painting }: PaintingCardProps) {
+  const [isError, setIsError] = useState(false);
+
+  const handleImageError = () => {
+    setIsError(true);
+  };
+
   return (
     <figure className={s.paintingCard}>
-      <img
-        src={BASE_URL + painting.imageUrl}
-        alt={painting.name}
-        className={s.image}
-      />
+      {!isError ? (
+        <img
+          src={BASE_URL + painting.imageUrl}
+          alt={painting.name}
+          className={s.image}
+          onErrorCapture={handleImageError}
+        />
+      ) : (
+        <span className={s.fallback}>
+          <DangerIcon />
+          <p> Image was not loaded </p>
+        </span>
+      )}
       <figcaption className={s.figcaption}>
         <div className={s.previewInfo}>
           <h1 className={s.upperText}>{painting.name}</h1>
